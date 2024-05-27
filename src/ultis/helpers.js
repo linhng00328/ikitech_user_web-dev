@@ -78,14 +78,15 @@ export const containsSpecialChars = (str) => {
 //   });
 // };
 
-export const compressed = (file, maxWitdh = 1024, maxHeight = 1024) =>
-  new Promise((resolve) => {
+export const compressed = (file, maxWitdh = 1024, maxHeight = 1024) => {
+  const type = file.type.split("/")[1];
+  return new Promise((resolve) => {
     Resizer.imageFileResizer(
       file,
       maxWitdh <= 0 ? 2048 : maxWitdh,
       maxHeight <= 0 ? 2048 : maxHeight,
-      "WEBP",
-      100,
+      type ?? "WEBP",
+      50,
       0,
       (uri) => {
         resolve(uri);
@@ -93,6 +94,7 @@ export const compressed = (file, maxWitdh = 1024, maxHeight = 1024) =>
       "file"
     );
   });
+};
 
 export const isPhone = (phone) => {
   var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;

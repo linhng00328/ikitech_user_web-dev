@@ -14,12 +14,26 @@ class Table extends Component {
     };
   }
 
-  passEditFunc = (e, id, name, image, isShowHome) => {
+  passEditFunc = (
+    e,
+    id,
+    name,
+    image,
+    isShowHome,
+    meta_robots_index,
+    meta_robots_follow,
+    canonical_url,
+    post_category_url
+  ) => {
     this.props.handleUpdateCallBack({
       id: id,
       name: name,
       image_url: image,
       is_show_home: isShowHome,
+      meta_robots_index,
+      meta_robots_follow,
+      canonical_url,
+      post_category_url,
     });
     e.preventDefault();
   };
@@ -29,9 +43,7 @@ class Table extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (
-      !shallowEqual(this.props.data, nextProps.data)
-    ) {
+    if (!shallowEqual(this.props.data, nextProps.data)) {
       this.setState({ listArr: nextProps.data });
     }
   }
@@ -54,12 +66,26 @@ class Table extends Component {
     this.props.handleCreateChild({ id: id });
     e.preventDefault();
   };
-  editChild = (e, id, idChild, name, image_url) => {
+  editChild = (
+    e,
+    id,
+    idChild,
+    name,
+    image_url,
+    meta_robots_index,
+    meta_robots_follow,
+    canonical_url,
+    post_category_children_url
+  ) => {
     this.props.handleUpdateChild({
       image: image_url,
       id: id,
       idChild: idChild,
       name: name,
+      meta_robots_index,
+      meta_robots_follow,
+      canonical_url,
+      post_category_children_url,
     });
     e.preventDefault();
   };
@@ -121,15 +147,15 @@ class Table extends Component {
                   >
                     {data.title}
                   </div>
-                  <div
-                    className="group-btn-table"
-                  >
+                  <div className="group-btn-table">
                     <Link
-                to={`/posts/category/edit/${this.props.store_code}/${data.id}`}
-                class={`btn btn-warning btn-sm ${update == true ? "show" : "hide"}`}
-              >
-                <i class="fa fa-edit"></i> Sửa
-              </Link>
+                      to={`/posts/category/edit/${this.props.store_code}/${data.id}`}
+                      class={`btn btn-warning btn-sm ${
+                        update == true ? "show" : "hide"
+                      }`}
+                    >
+                      <i class="fa fa-edit"></i> Sửa
+                    </Link>
 
                     <a
                       style={{ marginLeft: "10px", color: "white" }}
@@ -201,7 +227,11 @@ class Table extends Component {
                                 data.id,
                                 data1.id,
                                 data1.name,
-                                data1.image_url
+                                data1.image_url,
+                                data1.meta_robots_index,
+                                data1.meta_robots_follow,
+                                data1.canonical_url,
+                                data1.post_category_children_url
                               )
                             }
                             data-toggle="modal"
@@ -277,7 +307,7 @@ class Table extends Component {
           </div>
         </div>
         <SortableList
-        allowDrag={false}
+          allowDrag={false}
           onSortEnd={this.onSortEnd}
           className="resp-table-body"
           draggedItemClassName="dragged"

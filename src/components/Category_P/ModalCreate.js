@@ -12,6 +12,8 @@ import "./style.css";
 import Upload from "../Upload";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
+import Select from "react-select";
+
 import {
   image as imagePlugin,
   font,
@@ -46,6 +48,10 @@ class ModalCreate extends Component {
       bannerLinks: ["", ""],
       mainImage: "",
       txtContent: "",
+      meta_robots_index: "noindex",
+      meta_robots_follow: "nofollow",
+      canonical_url: "",
+      product_category_url: "",
     };
   }
 
@@ -81,6 +87,11 @@ class ModalCreate extends Component {
       this.setState({
         txtName: "",
         isShowHome: false,
+        txtContent: "",
+        meta_robots_index: "noindex",
+        meta_robots_follow: "nofollow",
+        canonical_url: "",
+        product_category_url: "",
       });
     }
   }
@@ -91,7 +102,11 @@ class ModalCreate extends Component {
       isShowHome: false,
       bannerImages: [],
       bannerLinks: ["", ""],
-      txtContent: ""
+      txtContent: "",
+      meta_robots_index: "noindex",
+      meta_robots_follow: "nofollow",
+      canonical_url: "",
+      product_category_url: "",
     });
     window.$("#file-category-product").fileinput("clear");
   };
@@ -121,7 +136,11 @@ class ModalCreate extends Component {
       is_show_home: this.state.isShowHome,
       banner_ads: BannerAds,
       image_url: this.state.mainImage,
-      description: this.state.txtContent
+      description: this.state.txtContent,
+      meta_robots_index: this.state.meta_robots_index?.value,
+      meta_robots_follow: this.state.meta_robots_follow?.value,
+      canonical_url: this.state.canonical_url,
+      category_url: this.state.product_category_url,
     };
     this.props.createCategoryP(this.props.store_code, { ...params });
     this.setState({ fileUpload: null });
@@ -381,6 +400,125 @@ class ModalCreate extends Component {
                       });
                     }}
                   />
+                </div>
+
+                <div className="form-group">
+                  <label>Đường dẫn</label>
+                  <div
+                    style={{
+                      border: "1px solid #d1d3e2",
+                      borderRadius: "0.35rem",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        paddingLeft: "8px",
+                        color: "gray",
+                      }}
+                    >
+                      https://duocphamnhatban.ikitech.vn/
+                    </span>
+                    <input
+                      type="text"
+                      name="product_category_url"
+                      onChange={this.onChange}
+                      value={this.state.product_category_url}
+                      style={{
+                        minWidth: "200px",
+                        outline: "none",
+                        border: "none",
+                        paddingLeft: "8px",
+                        height: "calc(1.5em + 0.75rem + 2px)",
+                        borderRadius: "0.35rem",
+                        flex: 1,
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Canonical Url</label>
+                  <div
+                    style={{
+                      border: "1px solid #d1d3e2",
+                      borderRadius: "0.35rem",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        paddingLeft: "8px",
+                        color: "gray",
+                      }}
+                    >
+                      https://duocphamnhatban.ikitech.vn/
+                    </span>
+                    <input
+                      type="text"
+                      name="canonical_url"
+                      onChange={this.onChange}
+                      value={this.state.canonical_url}
+                      style={{
+                        minWidth: "200px",
+                        outline: "none",
+                        border: "none",
+                        paddingLeft: "8px",
+                        height: "calc(1.5em + 0.75rem + 2px)",
+                        borderRadius: "0.35rem",
+                      }}
+                    />
+                  </div>
+                  <div
+                    className="form-group"
+                    style={{
+                      marginTop: "8px",
+                    }}
+                  >
+                    <label>Meta Robots Index</label>
+
+                    <div
+                      style={{
+                        width: "150px",
+                      }}
+                    >
+                      <Select
+                        value={this.state.meta_robots_index}
+                        onChange={(value) => {
+                          this.setState({ meta_robots_index: value });
+                        }}
+                        options={[
+                          { value: "noindex", label: "NoIndex" },
+                          { value: "index", label: "Index" },
+                        ]}
+                        placeholder="Chọn meta"
+                        name="meta_robots_index"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label>Meta Robots Follow</label>
+
+                    <div
+                      style={{
+                        width: "150px",
+                      }}
+                    >
+                      <Select
+                        value={this.state.meta_robots_follow}
+                        onChange={(value) => {
+                          this.setState({ meta_robots_follow: value });
+                        }}
+                        options={[
+                          { value: "nofollow", label: "NoFollow" },
+                          { value: "follow", label: "Follow" },
+                        ]}
+                        placeholder="Chọn meta"
+                        name="meta_robots_follow"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 {isShowHome && (

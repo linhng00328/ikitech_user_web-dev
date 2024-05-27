@@ -14,14 +14,30 @@ class Table extends Component {
     };
   }
 
-  passEditFunc = (e, id, name, image, isShowHome, banner_ads, description) => {
+  passEditFunc = (
+    e,
+    id,
+    name,
+    image,
+    isShowHome,
+    banner_ads,
+    description,
+    meta_robots_index,
+    meta_robots_follow,
+    canonical_url,
+    product_category_url
+  ) => {
     this.props.handleUpdateCallBack({
       id: id,
       name: name,
       image_url: image,
       is_show_home: isShowHome,
       banner_ads: banner_ads,
-      description
+      description,
+      meta_robots_index,
+      meta_robots_follow,
+      canonical_url,
+      product_category_url,
     });
     e.preventDefault();
   };
@@ -55,13 +71,28 @@ class Table extends Component {
     this.props.handleCreateChild({ id: id });
     e.preventDefault();
   };
-  editChild = (e, id, idChild, name, image_url, description) => {
+  editChild = (
+    e,
+    id,
+    idChild,
+    name,
+    image_url,
+    description,
+    meta_robots_index,
+    meta_robots_follow,
+    canonical_url,
+    category_children_url
+  ) => {
     this.props.handleUpdateChild({
       image: image_url,
       id: id,
       idChild: idChild,
       name: name,
-      description
+      description,
+      meta_robots_index,
+      meta_robots_follow,
+      canonical_url,
+      category_children_url,
     });
     e.preventDefault();
   };
@@ -192,6 +223,10 @@ class Table extends Component {
                             data.is_show_home,
                             data.banner_ads,
                             data.description,
+                            data.meta_robots_index,
+                            data.meta_robots_follow,
+                            data.canonical_url,
+                            data.category_url
                           )
                         }
                         data-toggle="modal"
@@ -305,7 +340,11 @@ class Table extends Component {
                                   data1.id,
                                   data1.name,
                                   data1.image_url,
-                                  data1.description
+                                  data1.description,
+                                  data1.meta_robots_index,
+                                  data1.meta_robots_follow,
+                                  data1.canonical_url,
+                                  data1.category_children_url
                                 )
                               }
                               data-toggle="modal"

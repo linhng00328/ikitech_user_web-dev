@@ -7,6 +7,8 @@ import CKEditor from "ckeditor4-react";
 import ModalUpload from "./ModalUpload";
 import * as Env from "../../../ultis/default";
 import { isEmpty } from "../../../ultis/helpers";
+import Select from "react-select";
+
 
 class Form extends Component {
   constructor(props) {
@@ -16,6 +18,10 @@ class Form extends Component {
       txtTitle: "",
       image: "",
       isShowHome: false,
+      meta_robots_index: "noindex",
+      meta_robots_follow: "nofollow",
+      canonical_url: "",
+      post_category_url: "",
     };
   }
   componentDidMount() {
@@ -65,6 +71,10 @@ class Form extends Component {
       description: txtContent,
       image_url: image,
       is_show_home: isShowHome,
+      meta_robots_index: this.state.meta_robots_index?.value,
+      meta_robots_follow: this.state.meta_robots_follow?.value,
+      canonical_url: this.state.canonical_url,
+      post_category_url: this.state.post_category_url,
     });
   };
   goBack = () => {
@@ -138,6 +148,124 @@ class Form extends Component {
                 data={txtContent}
                 onChange={this.onChangeDecription}
               /> */}
+            </div>
+            <div className="form-group">
+              <label>Đường dẫn</label>
+              <div
+                style={{
+                  border: "1px solid #d1d3e2",
+                  borderRadius: "0.35rem",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <span
+                  style={{
+                    paddingLeft: "8px",
+                    color: "gray",
+                  }}
+                >
+                  https://duocphamnhatban.ikitech.vn/
+                </span>
+                <input
+                  type="text"
+                  name="post_category_url"
+                  onChange={this.onChange}
+                  value={this.state.post_category_url}
+                  style={{
+                    minWidth: "200px",
+                    outline: "none",
+                    border: "none",
+                    paddingLeft: "8px",
+                    height: "calc(1.5em + 0.75rem + 2px)",
+                    borderRadius: "0.35rem",
+                    flex: 1,
+                  }}
+                />
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Canonical Url</label>
+              <div
+                style={{
+                  border: "1px solid #d1d3e2",
+                  borderRadius: "0.35rem",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <span
+                  style={{
+                    paddingLeft: "8px",
+                    color: "gray",
+                  }}
+                >
+                  https://duocphamnhatban.ikitech.vn/
+                </span>
+                <input
+                  type="text"
+                  name="canonical_url"
+                  onChange={this.onChange}
+                  value={this.state.canonical_url}
+                  style={{
+                    minWidth: "200px",
+                    outline: "none",
+                    border: "none",
+                    paddingLeft: "8px",
+                    height: "calc(1.5em + 0.75rem + 2px)",
+                    borderRadius: "0.35rem",
+                  }}
+                />
+              </div>
+              <div
+                className="form-group"
+                style={{
+                  marginTop: "8px",
+                }}
+              >
+                <label>Meta Robots Index</label>
+
+                <div
+                  style={{
+                    width: "150px",
+                  }}
+                >
+                  <Select
+                    value={this.state.meta_robots_index}
+                    onChange={(value) => {
+                      this.setState({ meta_robots_index: value });
+                    }}
+                    options={[
+                      { value: "noindex", label: "NoIndex" },
+                      { value: "index", label: "Index" },
+                    ]}
+                    placeholder="Chọn meta"
+                    name="meta_robots_index"
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label>Meta Robots Follow</label>
+
+                <div
+                  style={{
+                    width: "150px",
+                  }}
+                >
+                  <Select
+                    value={this.state.meta_robots_follow}
+                    onChange={(value) => {
+                      this.setState({ meta_robots_follow: value });
+                    }}
+                    options={[
+                      { value: "nofollow", label: "NoFollow" },
+                      { value: "follow", label: "Follow" },
+                    ]}
+                    placeholder="Chọn meta"
+                    name="meta_robots_follow"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div class="box-footer">

@@ -32,7 +32,7 @@ import { handleImageUploadBefore } from "../../ultis/sun_editor";
 import imageGallery from "../imageGallery";
 import { getApiImageStore } from "../../constants/Config";
 import * as userLocalApi from "../../data/local/user";
-
+import Select from "react-select";
 
 class ModalCreateChild extends Component {
   constructor(props) {
@@ -40,7 +40,11 @@ class ModalCreateChild extends Component {
     this.state = {
       txtName: "",
       fileUpload: null,
-      txtContent: ""
+      txtContent: "",
+      meta_robots_index: "noindex",
+      meta_robots_follow: "nofollow",
+      canonical_url: "",
+      product_category_children_url: "",
     };
   }
 
@@ -78,6 +82,10 @@ class ModalCreateChild extends Component {
       this.setState({
         txtName: "",
         txtContent: "",
+        meta_robots_index: "noindex",
+        meta_robots_follow: "nofollow",
+        canonical_url: "",
+        product_category_children_url: "",
       });
     }
   }
@@ -86,6 +94,10 @@ class ModalCreateChild extends Component {
       txtName: "",
       fileUpload: null,
       txtContent: "",
+      meta_robots_index: "noindex",
+      meta_robots_follow: "nofollow",
+      canonical_url: "",
+      product_category_children_url: "",
     });
     window.$("#file-category-product-child").fileinput("clear");
   };
@@ -113,23 +125,41 @@ class ModalCreateChild extends Component {
       fd.append("image", await compressed(file));
       fd.append("name", this.state.txtName);
       fd.append("description", this.state.txtContent);
+      const params = {
+        image: await compressed(file),
+        name: this.state.txtName,
+        description: this.state.txtContent,
+        meta_robots_index: this.state.meta_robots_index?.value,
+        meta_robots_follow: this.state.meta_robots_follow?.value,
+        canonical_url: this.state.canonical_url,
+        category_children_url: this.state.product_category_children_url,
+      };
       var { store_code, modal } = this.props;
-      this.props.createCategoryChild(store_code, modal.id, fd);
+      this.props.createCategoryChild(store_code, modal.id, params);
       this.setState({ fileUpload: null });
     } else {
       window.$("#file-category-product-child").fileinput("clear");
       const fd = new FormData();
       fd.append("name", this.state.txtName);
       fd.append("description", this.state.txtContent);
+
+      const params = {
+        name: this.state.txtName,
+        description: this.state.txtContent,
+        meta_robots_index: this.state.meta_robots_index?.value,
+        meta_robots_follow: this.state.meta_robots_follow?.value,
+        canonical_url: this.state.canonical_url,
+        category_children_url: this.state.product_category_children_url,
+      };
+
       this.props.createCategoryChild(
         this.props.store_code,
         this.props.modal.id,
-        fd
+        params
       );
     }
   };
   handleEditorChange = (editorState) => {
-    console.log("editorState: ", editorState.srcElement.innerHTML);
     this.setState({
       txtContent: editorState.srcElement.innerHTML,
     });
@@ -289,8 +319,126 @@ class ModalCreateChild extends Component {
                     }}
                   />
                 </div>
-              </div>
 
+                <div className="form-group">
+                  <label>Đường dẫn</label>
+                  <div
+                    style={{
+                      border: "1px solid #d1d3e2",
+                      borderRadius: "0.35rem",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        paddingLeft: "8px",
+                        color: "gray",
+                      }}
+                    >
+                      https://duocphamnhatban.ikitech.vn/
+                    </span>
+                    <input
+                      type="text"
+                      name="product_category_children_url"
+                      onChange={this.onChange}
+                      value={this.state.product_category_children_url}
+                      style={{
+                        minWidth: "200px",
+                        outline: "none",
+                        border: "none",
+                        paddingLeft: "8px",
+                        height: "calc(1.5em + 0.75rem + 2px)",
+                        borderRadius: "0.35rem",
+                        flex: 1,
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Canonical Url</label>
+                  <div
+                    style={{
+                      border: "1px solid #d1d3e2",
+                      borderRadius: "0.35rem",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        paddingLeft: "8px",
+                        color: "gray",
+                      }}
+                    >
+                      https://duocphamnhatban.ikitech.vn/
+                    </span>
+                    <input
+                      type="text"
+                      name="canonical_url"
+                      onChange={this.onChange}
+                      value={this.state.canonical_url}
+                      style={{
+                        minWidth: "200px",
+                        outline: "none",
+                        border: "none",
+                        paddingLeft: "8px",
+                        height: "calc(1.5em + 0.75rem + 2px)",
+                        borderRadius: "0.35rem",
+                      }}
+                    />
+                  </div>
+                  <div
+                    className="form-group"
+                    style={{
+                      marginTop: "8px",
+                    }}
+                  >
+                    <label>Meta Robots Index</label>
+
+                    <div
+                      style={{
+                        width: "150px",
+                      }}
+                    >
+                      <Select
+                        value={this.state.meta_robots_index}
+                        onChange={(value) => {
+                          this.setState({ meta_robots_index: value });
+                        }}
+                        options={[
+                          { value: "noindex", label: "NoIndex" },
+                          { value: "index", label: "Index" },
+                        ]}
+                        placeholder="Chọn meta"
+                        name="meta_robots_index"
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label>Meta Robots Follow</label>
+
+                    <div
+                      style={{
+                        width: "150px",
+                      }}
+                    >
+                      <Select
+                        value={this.state.meta_robots_follow}
+                        onChange={(value) => {
+                          this.setState({ meta_robots_follow: value });
+                        }}
+                        options={[
+                          { value: "nofollow", label: "NoFollow" },
+                          { value: "follow", label: "Follow" },
+                        ]}
+                        placeholder="Chọn meta"
+                        name="meta_robots_follow"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <div class="modal-footer">
                 <button

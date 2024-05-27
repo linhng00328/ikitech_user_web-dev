@@ -9,9 +9,7 @@ import Alert from "../../../components/Partials/Alert";
 class CategoryBEdit extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-
-    }
+    this.state = {};
   }
 
   componentDidMount() {
@@ -19,49 +17,41 @@ class CategoryBEdit extends Component {
     this.props.fetchAllCategoryB(store_code);
   }
 
-
-
-
   render() {
     var { categoryBId, store_code } = this.props;
-    var { category_blog, history } = this.props
+    var { category_blog, history } = this.props;
 
-      return (
-        
-                    <div class="container-fluid">
-                      <Alert
-                        type={Types.ALERT_UID_STATUS}
-                        alert={this.props.alert}
-                      />
-                      <div
-                        style={{ display: "flex", justifyContent: "space-between" }}
-                      >
-                        <h4 className="h4 title_content mb-0 text-gray-800">
-                          Chỉnh sửa danh mục
-                        </h4>
-                      </div>
-                      <br></br>
-                      <div class="card shadow mb-4">
-                        <div class="card-body">
-                          <section class="content">
-                            <div class="row">
-                              <div class="col-md-12 col-xs-12">
-                                <div id="messages"></div>
+    return (
+      <div class="container-fluid">
+        <Alert type={Types.ALERT_UID_STATUS} alert={this.props.alert} />
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h4 className="h4 title_content mb-0 text-gray-800">
+            Chỉnh sửa danh mục
+          </h4>
+        </div>
+        <br></br>
+        <div class="card shadow mb-4">
+          <div class="card-body">
+            <section class="content">
+              <div class="row">
+                <div class="col-md-12 col-xs-12">
+                  <div id="messages"></div>
 
-                                <div class="box">
-                                  <Form history={history} categoryBId={categoryBId} category_blog={category_blog} store_code={store_code} />
-                                </div>
-                              </div>
-                            </div>
-                          </section>
-                        </div>
-                      </div>
-                    </div>
-
-           
-
-      );
-  
+                  <div class="box">
+                    <Form
+                      history={history}
+                      categoryBId={categoryBId}
+                      category_blog={category_blog}
+                      store_code={store_code}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
@@ -71,7 +61,6 @@ const mapStateToProps = (state) => {
     auth: state.authReducers.login.authentication,
     alert: state.categoryBReducers.alert.alert_uid,
     permission: state.authReducers.permission.data,
-
   };
 };
 const mapDispatchToProps = (dispatch, props) => {

@@ -26,9 +26,9 @@ class Setting extends Component {
       allow_branch_payment_order: false,
       auto_choose_default_branch_payment_order: true,
       required_agency_ctv_has_referral_code: false,
-      meta_robots_index: "noindex",
-      meta_robots_follow: "nofollow",
-      canonical_url: "",
+      // meta_robots_index: "noindex",
+      // meta_robots_follow: "nofollow",
+      // canonical_url: "",
     };
   }
   handChangeEnableVat = (e) => {
@@ -87,9 +87,9 @@ class Setting extends Component {
         this.state.auto_choose_default_branch_payment_order,
       required_agency_ctv_has_referral_code:
         this.state.required_agency_ctv_has_referral_code,
-      canonical_url: this.state.canonical_url,
-      meta_robots_index: this.state.meta_robots_index.value,
-      meta_robots_follow: this.state.meta_robots_follow.value,
+      // canonical_url: this.state.canonical_url,
+      // meta_robots_index: this.state.meta_robots_index.value,
+      // meta_robots_follow: this.state.meta_robots_follow.value,
     };
     this.props.updateGeneralSetting(store_code, formData);
   };
@@ -108,15 +108,15 @@ class Setting extends Component {
           nextProps.generalSetting.auto_choose_default_branch_payment_order,
         required_agency_ctv_has_referral_code:
           nextProps.generalSetting.required_agency_ctv_has_referral_code,
-        canonical_url: nextProps.generalSetting.canonical_url,
-        meta_robots_index: {
-          label: nextProps.generalSetting.meta_robots_index == "index" ? "Index" : "NoIndex",
-          value: nextProps.generalSetting.meta_robots_index,
-        },
-        meta_robots_follow: {
-          label: nextProps.generalSetting.meta_robots_follow == "follow" ? "Follow" : "NoFollow",
-          value: nextProps.generalSetting.meta_robots_follow,
-        },
+        // canonical_url: nextProps.generalSetting.canonical_url,
+        // meta_robots_index: {
+        //   label: nextProps.generalSetting.meta_robots_index == "index" ? "Index" : "NoIndex",
+        //   value: nextProps.generalSetting.meta_robots_index,
+        // },
+        // meta_robots_follow: {
+        //   label: nextProps.generalSetting.meta_robots_follow == "follow" ? "Follow" : "NoFollow",
+        //   value: nextProps.generalSetting.meta_robots_follow,
+        // },
         
         
         
@@ -337,7 +337,7 @@ class Setting extends Component {
               style={{ width: "100px" }}
             />
           </div>
-          <div
+          {/* <div
             className="wrap-setting"
             style={{
               maxWidth: "600px",
@@ -439,7 +439,7 @@ class Setting extends Component {
                 placeholder="Chọn meta"
               />
             </div>
-          </div>
+          </div> */}
         </div>
         <button class="btn btn-primary btn-sm" onClick={this.handleUpdate}>
           <i class="fa fa-save"></i> Lưu

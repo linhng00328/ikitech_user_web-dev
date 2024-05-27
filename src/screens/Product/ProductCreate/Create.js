@@ -575,6 +575,10 @@ class ProductCreate extends Component {
       var formdata = { ...prevState.form };
       formdata.seo_description = data.txtSeoDescription;
       formdata.seo_title = data.txtSeoTitle;
+      formdata.meta_robots_index = data.meta_robots_index;
+      formdata.meta_robots_follow = data.meta_robots_follow;
+      formdata.canonical_url = data.canonical_url;
+      formdata.product_url = data.product_url;
       return { form: formdata };
     });
   };

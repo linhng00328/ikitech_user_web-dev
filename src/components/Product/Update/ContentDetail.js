@@ -30,8 +30,16 @@ class ContentDetail extends Component {
       txtContent: "",
       isLoaded: true,
       txtContentC: "",
+      txtContentUpdate: "",
     };
+    this.editorRef = null;
   }
+
+  getCodeViewContent = () => {
+    this.setState({
+      txtContent: this.editorRef.getContext().element.wysiwyg.innerHTML,
+    });
+  };
 
   onChange = (e) => {
     this.setState({ txtContentC: e.target.value });
@@ -47,7 +55,6 @@ class ContentDetail extends Component {
       nextState.txtContent !== this.state.txtContent ||
       nextState.txtContentC !== this.state.txtContentC
     ) {
-      console.log("đã vào", nextState);
       this.props.handleDataFromContent({
         txtContent: nextState.txtContent,
         txtContentC: nextState.txtContentC,
@@ -65,9 +72,15 @@ class ContentDetail extends Component {
         txtContentC: nextProps.product.content_for_collaborator ?? " ",
         isLoaded: false,
       });
+      this.editorRef.getContext().element.wysiwyg.innerHTML =
+        nextProps.product.description;
     }
     return true;
   }
+
+  setEditorRef = (editorInstance) => {
+    this.editorRef = editorInstance;
+  };
 
   render() {
     var { txtContent, txtContentC, txtContentUpdate } = this.state;
@@ -78,10 +91,12 @@ class ContentDetail extends Component {
         <div class="form-group">
           <label for="product_name">&nbsp;&nbsp;Mô tả sản phẩm</label>
           <SunEditor
+            getSunEditorInstance={this.setEditorRef}
             onImageUploadBefore={handleImageUploadBefore}
-            setContents={txtContentUpdate}
             showToolbar={true}
-            // onChange={this.handleEditorChange}
+            onChange={(editorState) => {
+              this.getCodeViewContent();
+            }}
             setDefaultStyle="height: auto"
             setOptions={{
               requestHeaders: {
@@ -107,7 +122,6 @@ class ContentDetail extends Component {
                 audio,
                 align,
               ],
-
               buttonList: [
                 [
                   "undo",
@@ -122,7 +136,6 @@ class ContentDetail extends Component {
                   "italic",
                   "fontColor",
                   "textStyle",
-                  // "outdent",
                   "align",
                   "horizontalRule",
                   "list",
@@ -135,23 +148,12 @@ class ContentDetail extends Component {
                   "imageGallery",
                   "fullScreen",
                   "preview",
-                  // "codeView",
+                  "codeView",
                   "removeFormat",
                 ],
               ],
             }}
-            onSave={(e, g) => {
-              this.setState({
-                txtContent: e,
-              });
-            }}
-            onInput={this.handleEditorChange}
             onPaste={this.handleEditorChange}
-            onFocus={(e) => {
-              this.setState({
-                txtContent: e.target.innerHTML,
-              });
-            }}
           />
         </div>
 

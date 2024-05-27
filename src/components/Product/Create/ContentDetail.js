@@ -31,9 +31,23 @@ class ContentDetail extends Component {
       txtContent: "",
       txtContentC: "",
     };
+    this.editorRef = null;
   }
 
+  getCodeViewContent = () => {
+    this.setState({
+      txtContent: this.editorRef.getContext().element.wysiwyg.innerHTML,
+    });
+  };
+
+  setEditorRef = (editorInstance) => {
+    console.log("editorInstance", editorInstance);
+    this.editorRef = editorInstance;
+  };
+
   handleEditorChange = (editorState) => {
+    console.log("onChange", editorState);
+
     this.setState({
       txtContent: editorState.srcElement.innerHTML,
     });
@@ -65,9 +79,12 @@ class ContentDetail extends Component {
         <div class="form-group">
           <label for="product_name">&nbsp;&nbsp;Mô tả sản phẩm</label>
           <SunEditor
+            getSunEditorInstance={this.setEditorRef}
             onImageUploadBefore={handleImageUploadBefore}
             showToolbar={true}
-            onChange={this.handleEditorChange}
+            onChange={(editorState) => {
+              this.getCodeViewContent();
+            }}
             setDefaultStyle="height: auto"
             setOptions={{
               requestHeaders: {
@@ -108,7 +125,6 @@ class ContentDetail extends Component {
                   "italic",
                   "fontColor",
                   "textStyle",
-                  // "outdent",
                   "align",
                   "horizontalRule",
                   "list",
@@ -121,25 +137,12 @@ class ContentDetail extends Component {
                   "imageGallery",
                   "fullScreen",
                   "preview",
-                  // "codeView",
+                  "codeView",
                   "removeFormat",
                 ],
               ],
             }}
-            onSave={(e, g) => {
-              console.log("e", e);
-              console.log("g", g);
-              this.setState({
-                txtContent: e,
-              });
-            }}
-            onInput={this.handleEditorChange}
             onPaste={this.handleEditorChange}
-            onFocus={(e) => {
-              this.setState({
-                txtContent: e.target.innerHTML,
-              });
-            }}
           />
         </div>
 

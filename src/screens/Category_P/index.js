@@ -43,14 +43,22 @@ class Store extends Component {
         id: "",
         idChild: "",
         image: "",
-        description: ""
+        description: "",
+        meta_robots_index: "",
+        meta_robots_follow: "",
+        canonical_url: "",
+        category_children_url: "",
       },
       modalupdate: {
         name: "",
         id: "",
         image_url: "",
         is_show_home: "",
-        description: ""
+        description: "",
+        meta_robots_index: "",
+        meta_robots_follow: "",
+        canonical_url: "",
+        product_category_url: "",
       },
     };
   }

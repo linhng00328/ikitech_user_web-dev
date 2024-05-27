@@ -52,14 +52,28 @@ class Form extends Component {
       txtCategories: "",
       txtSeoTitle: "",
       txtSeoDescription: "",
+      meta_robots_index: "noindex",
+      meta_robots_follow: "nofollow",
+      canonical_url: "",
+      post_url: "",
     };
+    this.editorRef = null;
   }
+
+  getCodeViewContent = () => {
+    this.setState({
+      txtContent: this.editorRef.getContext().element.wysiwyg.innerHTML,
+    });
+  };
+
+  setEditorRef = (editorInstance) => {
+    this.editorRef = editorInstance;
+  };
 
   componentDidMount() {
     this.props.fetchBlogId(this.props.store_code, this.props.blogId);
     var options = [];
     var categories = [...this.props.categories];
-    console.log("categories", categories);
     if (categories.length > 0) {
       options = categories?.map((category, index) => {
         return {
@@ -69,7 +83,6 @@ class Form extends Component {
           categories_child: category.category_children,
         };
       });
-      console.log("options", options);
       this.setState({ listCategory: options });
     }
 
@@ -139,7 +152,13 @@ class Form extends Component {
         txtSeoDescription: nextProps.blog.seo_description,
         categoryParent: listcategorynew,
         categoryChildrenIds: this.props.blog.category_children,
+        meta_robots_index: nextProps.blog.meta_robots_index,
+        meta_robots_follow: nextProps.blog.meta_robots_follow,
+        canonical_url: nextProps.blog.canonical_url,
+        post_url: nextProps.blog.post_url,
       });
+      this.editorRef.getContext().element.wysiwyg.innerHTML =
+        nextProps.blog.content;
     }
 
     if (this.props.image !== nextProps.image) {
@@ -178,6 +197,10 @@ class Form extends Component {
       txtSumary,
       txtPublished,
       txtCategories,
+      canonical_url,
+      meta_robots_follow,
+      meta_robots_index,
+      post_url,
     } = this.state;
     if (txtTitle == null || !isEmpty(txtTitle)) {
       this.props.showError({
@@ -230,6 +253,10 @@ class Form extends Component {
         seo_title: txtSeoTitle,
         category_parent: this.state.categoryParent,
         category_children_ids: this.state.categoryChildrenIds,
+        canonical_url,
+        meta_robots_follow,
+        meta_robots_index,
+        post_url,
       },
       store_code
     );
@@ -243,6 +270,10 @@ class Form extends Component {
     this.setState({
       txtSeoTitle: data.txtSeoTitle,
       txtSeoDescription: data.txtSeoDescription,
+      meta_robots_index: data.meta_robots_index,
+      meta_robots_follow: data.meta_robots_follow,
+      canonical_url: data.canonical_url,
+      post_url: data.post_url,
     });
   };
 
@@ -370,6 +401,10 @@ class Form extends Component {
       txtSeoDescription,
       txtSeoTitle,
       txtCategories,
+      meta_robots_index,
+      meta_robots_follow,
+      canonical_url,
+      post_url,
     } = this.state;
     var image = image == "" || image == null ? Env.IMG_NOT_FOUND : image;
     var { store_code } = this.props;
@@ -572,10 +607,13 @@ class Form extends Component {
             <div class="form-group">
               <label for="product_name">Nội dung bài viết</label>
               <SunEditor
+                getSunEditorInstance={this.setEditorRef}
                 onImageUploadBefore={handleImageUploadBefore}
                 setContents={txtContent}
                 showToolbar={true}
-                // onChange={this.handleEditorChange}
+                onChange={(editorState) => {
+                  this.getCodeViewContent();
+                }}
                 setDefaultStyle="height: auto;font-family: Arial;font-size: 14px;"
                 setOptions={{
                   requestHeaders: {
@@ -604,8 +642,8 @@ class Form extends Component {
                   toolbar: {
                     codeView: "Code view",
                     tag_pre: "Code",
-                    tag_blockquote: 'Quote',
-                    showBlocks: 'Show blocks',
+                    tag_blockquote: "Quote",
+                    showBlocks: "Show blocks",
                   },
                   menu: {
                     code: "Code",
@@ -648,13 +686,7 @@ class Form extends Component {
                     txtContent: e,
                   });
                 }}
-                onInput={this.handleEditorChange}
                 onPaste={this.handleEditorChange}
-                onFocus={(e) => {
-                  this.setState({
-                    txtContent: e.target.innerHTML,
-                  });
-                }}
               />
             </div>
 
@@ -667,6 +699,10 @@ class Form extends Component {
                       txtSeoDescription={txtSeoDescription}
                       txtSeoTitle={txtSeoTitle}
                       handleDataFromContent={this.handleDataFromContent}
+                      meta_robots_index={meta_robots_index}
+                      meta_robots_follow={meta_robots_follow}
+                      canonical_url={canonical_url}
+                      post_url={post_url}
                     />
                   </div>
                 </div>

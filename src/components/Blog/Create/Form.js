@@ -48,8 +48,24 @@ class Form extends Component {
       txtCategories: "",
       txtContent: "",
       icon: false,
+      meta_robots_index: "noindex",
+      meta_robots_follow: "nofollow",
+      canonical_url: "",
+      post_url: "",
     };
+    this.editorRef = null;
   }
+  
+  getCodeViewContent = () => {
+    this.setState({
+      txtContent: this.editorRef.getContext().element.wysiwyg.innerHTML,
+    });
+  };
+
+  setEditorRef = (editorInstance) => {
+    this.editorRef = editorInstance;
+  };
+
   componentDidMount() {
     var options = [];
     var categories = [...this.props.categories];
@@ -109,6 +125,10 @@ class Form extends Component {
     this.setState({
       txtSeoTitle: data.txtSeoTitle,
       txtSeoDescription: data.txtSeoDescription,
+      meta_robots_index: data.meta_robots_index,
+      meta_robots_follow: data.meta_robots_follow,
+      canonical_url: data.canonical_url,
+      post_url: data.post_url,
     });
   };
 
@@ -124,6 +144,10 @@ class Form extends Component {
       txtCategories,
       txtSeoDescription,
       txtSeoTitle,
+      canonical_url,
+      meta_robots_follow,
+      meta_robots_index,
+      post_url,
     } = this.state;
 
     if (txtTitle == null || !isEmpty(txtTitle)) {
@@ -175,6 +199,10 @@ class Form extends Component {
       category_children_ids: this.state.categoryChildrenIds.map(
         (item) => item.id
       ),
+      canonical_url,
+      meta_robots_follow,
+      meta_robots_index,
+      post_url,
     });
   };
 
@@ -304,6 +332,9 @@ class Form extends Component {
       txtCategories,
       txtSeoDescription,
       txtSeoTitle,
+      canonical_url,
+      meta_robots_follow,
+      meta_robots_index,
     } = this.state;
     var image = image == "" || image == null ? Env.IMG_NOT_FOUND : image;
 
@@ -513,9 +544,12 @@ class Form extends Component {
               <label for="product_name">Nội dung bài viết</label>
               <div className="editor">
                 <SunEditor
+                  getSunEditorInstance={this.setEditorRef}
                   onImageUploadBefore={handleImageUploadBefore}
                   showToolbar={true}
-                  // onChange={this.handleEditorChange}
+                  onChange={(editorState) => {
+                    this.getCodeViewContent();
+                  }}
                   setDefaultStyle="height: auto"
                   setOptions={{
                     requestHeaders: {
@@ -556,7 +590,6 @@ class Form extends Component {
                         "italic",
                         "fontColor",
                         "textStyle",
-                        // "outdent",
                         "align",
                         "horizontalRule",
                         "list",
@@ -569,25 +602,12 @@ class Form extends Component {
                         "imageGallery",
                         "fullScreen",
                         "preview",
-                        // "codeView",
+                        "codeView",
                         "removeFormat",
                       ],
                     ],
                   }}
-                  onSave={(e, g) => {
-                    console.log("e", e);
-                    console.log("g", g);
-                    this.setState({
-                      txtContent: e,
-                    });
-                  }}
-                  onInput={this.handleEditorChange}
                   onPaste={this.handleEditorChange}
-                  onFocus={(e) => {
-                    this.setState({
-                      txtContent: e.target.innerHTML,
-                    });
-                  }}
                 />
               </div>
             </div>
@@ -600,6 +620,10 @@ class Form extends Component {
                     <SeoOption
                       txtSeoDescription={txtSeoDescription}
                       txtSeoTitle={txtSeoTitle}
+                      meta_robots_index={meta_robots_index}
+                      meta_robots_follow={meta_robots_follow}
+                      canonical_url={canonical_url}
+                      product_url={this.state.product_url}
                       handleDataFromContent={this.handleDataFromContent}
                     />
                   </div>

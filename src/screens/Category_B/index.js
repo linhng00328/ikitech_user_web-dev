@@ -42,12 +42,20 @@ class CategoryBlog extends Component {
         id: "",
         idChild: "",
         image: "",
+        meta_robots_index: "noindex",
+        meta_robots_follow: "nofollow",
+        canonical_url: "",
+        post_category_children_url: "",
       },
       modalupdate: {
         name: "",
         id: "",
         image_url: "",
         is_show_home: "",
+        meta_robots_index: "noindex",
+        meta_robots_follow: "nofollow",
+        canonical_url: "",
+        post_category_url: "",
       },
     };
   }
